@@ -1,0 +1,6 @@
+{
+  "name": "MegaWins",
+  "description": "MegaWins - No.1 Free-to-Play Social Casino with 500+ premium games, live jackpots, and instant play.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

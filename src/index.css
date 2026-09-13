@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Outfit', sans-serif;
+  }
+}
+
+/* 3D Coin Rotation */
+@keyframes coinRotate {
+  0% {
+    transform: rotateY(0deg) translateY(0);
+  }
+  50% {
+    transform: rotateY(180deg) translateY(-8px);
+  }
+  100% {
+    transform: rotateY(360deg) translateY(0);
+  }
+}
+
+.animate-coin-spin {
+  animation: coinRotate 3s infinite linear;
+  transform-style: preserve-3d;
+}
+
+/* Marquee chaser lights */
+@keyframes chaserLights {
+  0%, 100% {
+    opacity: 0.3;
+    filter: drop-shadow(0 0 2px #f59e0b);
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 8px #fbbf24);
+  }
+}
+
+.animate-chaser-odd {
+  animation: chaserLights 0.8s infinite ease-in-out;
+}
+
+.animate-chaser-even {
+  animation: chaserLights 0.8s infinite ease-in-out 0.4s;
+}
+
+/* Shimmer shine across buttons and cards */
+@keyframes shimmerSweep {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(200%) skewX(-20deg);
+  }
+}
+
+.animate-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  animation: shimmerSweep 3.5s infinite;
+  pointer-events: none;
+}
+
+/* Slot machine reel spin blur */
+@keyframes reelBlur {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-80px);
+    filter: blur(2px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-reel-spin {
+  animation: reelBlur 0.35s infinite ease-in-out;
+}
+
+/* Jackpot pulsating glow */
+@keyframes jackpotPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.3), inset 0 0 15px rgba(245, 158, 11, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 45px rgba(245, 158, 11, 0.7), inset 0 0 25px rgba(245, 158, 11, 0.4);
+  }
+}
+
+.animate-jackpot-glow {
+  animation: jackpotPulse 2s infinite ease-in-out;
+}
+
+/* Ticker marquee */
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-ticker {
+  display: flex;
+  width: max-content;
+  animation: ticker 35s linear infinite;
+}
+
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0a12;
+}
+::-webkit-scrollbar-thumb {
+  background: #25213b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3b355d;
+}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Sparkles, Menu, X, Send, ShieldCheck, Flame, Volume2, VolumeX } from "lucide-react";
 import { CONFIG, handlePlayRedirect } from "../config";
 import { casinoAudio } from "../utils/casinoAudio";
+import { useGameImage } from "../services/imageStore";
 
 interface NavbarProps {
   onOpenSupport?: () => void;
@@ -11,6 +12,8 @@ export const Navbar: React.FC<NavbarProps> = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const logoSrc = useGameImage("mega-win", CONFIG.LOGO_IMAGE_URL || "/games/mega-win.png");
+  const [logoError, setLogoError] = useState(false);
 
   useEffect(() => {
     setIsMuted(casinoAudio.getMuted());
@@ -52,10 +55,11 @@ export const Navbar: React.FC<NavbarProps> = () => {
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="flex items-center gap-3 cursor-pointer group select-none"
         >
-          {CONFIG.LOGO_IMAGE_URL ? (
+          {logoSrc && !logoError ? (
             <img
-              src={CONFIG.LOGO_IMAGE_URL}
+              src={logoSrc}
               alt="MegaWins Logo"
+              onError={() => setLogoError(true)}
               className="w-10 h-10 object-contain rounded-xl shadow-lg shadow-purple-600/30 group-hover:scale-105 transition-transform"
             />
           ) : (
@@ -129,8 +133,8 @@ export const Navbar: React.FC<NavbarProps> = () => {
           {/* Test Win Sound Quick Trigger */}
           <button
             onClick={testWinSound}
-            title="Play Casino Winning Sound"
-            className="px-3 py-2 text-xs font-bold text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30 rounded-full transition-all flex items-center gap-1.5 shadow-sm"
+            title="Play Win Sound"
+            className="px-3 py-2 text-xs font-bold text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30 rounded-full transition-all flex items-center gap-1.5 shadow-sm active:scale-95"
           >
             <Sparkles className="w-3.5 h-3.5 text-amber-400" />
             <span>Win Sound</span>

@@ -44,7 +44,7 @@ export const Hero: React.FC = () => {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
               </span>
               <Layers className="w-3.5 h-3.5 text-amber-400" />
-              <span>15 Premium Platforms</span>
+              <span>16 Premium Platforms</span>
             </div>
 
             {/* Main Headline */}
@@ -135,7 +135,7 @@ export const Hero: React.FC = () => {
               </div>
 
               <p className="text-xs text-slate-400 font-medium pt-1">
-                Active on: <span className="text-slate-300">Fire Kirin • Ultra Panda • Golden Dragon • Milky Way</span>
+                Active on: <span className="text-slate-300">Fire Kirin • Ultra Panda • Mega Win • Milky Way</span>
               </p>
             </div>
           </div>

@@ -11,6 +11,7 @@ export interface Game {
   accentColor: string;
   bgGradient: string;
   imageUrl?: string;
+  fallbackUrl?: string;
   iconType:
     | "dragon"
     | "star"

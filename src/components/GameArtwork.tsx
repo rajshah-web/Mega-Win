@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Game } from "../types";
+import { useGameImage, saveGameImage } from "../services/imageStore";
 
 interface GameArtworkProps {
   game: Game;
@@ -8,13 +9,63 @@ interface GameArtworkProps {
 
 export const GameArtwork: React.FC<GameArtworkProps> = ({ game, isHovered = false }) => {
   const { title, accentColor, imageUrl, badge } = game;
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
+  const storedSrc = useGameImage(game.id, imageUrl);
+  const [imageLoaded, setImageLoaded] = useState(true);
+  const [currentSrc, setCurrentSrc] = useState<string | undefined>(storedSrc || imageUrl);
+  const [hasFailedAll, setHasFailedAll] = useState(false);
+  const [isCardDropping, setIsCardDropping] = useState(false);
+
+  useEffect(() => {
+    if (storedSrc) {
+      setCurrentSrc(storedSrc);
+      setHasFailedAll(false);
+      setImageLoaded(true);
+    } else if (imageUrl) {
+      setCurrentSrc(imageUrl);
+      setHasFailedAll(false);
+      setImageLoaded(true);
+    }
+  }, [storedSrc, imageUrl]);
+
+  const handleImageError = () => {
+    // If the image fails to load, show the stylized fallback badge
+    setHasFailedAll(true);
+    setImageLoaded(false);
+  };
+
+  const handleCardDrop = async (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsCardDropping(false);
+    if (e.dataTransfer?.files?.[0]) {
+      const file = e.dataTransfer.files[0];
+      if (file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = async () => {
+          await saveGameImage(game.id, reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  };
 
   return (
     <div
       id={`game-artwork-${game.id}`}
-      className={`relative w-full h-full overflow-hidden bg-gradient-to-br ${game.bgGradient} flex items-center justify-center select-none`}
+      onDragOver={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsCardDropping(true);
+      }}
+      onDragLeave={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsCardDropping(false);
+      }}
+      onDrop={handleCardDrop}
+      className={`relative w-full h-full overflow-hidden bg-gradient-to-br ${game.bgGradient} flex items-center justify-center select-none ${
+        isCardDropping ? "ring-4 ring-amber-400" : ""
+      }`}
     >
       {/* Dynamic Ambient Color Glow */}
       <div
@@ -26,59 +77,55 @@ export const GameArtwork: React.FC<GameArtworkProps> = ({ game, isHovered = fals
       />
 
       {/* Primary Game Image */}
-      {imageUrl && !imageError && (
+      {currentSrc && !hasFailedAll && (
         <img
-          src={imageUrl}
-          alt={`${title} arcade game thumbnail`}
+          src={currentSrc}
+          alt={`${title} arcade game logo`}
           referrerPolicy="no-referrer"
-          loading="lazy"
           onLoad={() => setImageLoaded(true)}
-          onError={() => setImageError(true)}
-          className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out ${
-            isHovered ? "scale-110 brightness-110 contrast-105" : "scale-100 brightness-95"
-          } ${imageLoaded ? "opacity-100" : "opacity-0"}`}
+          onError={handleImageError}
+          className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out ${
+            isHovered ? "scale-105 brightness-105 contrast-105" : "scale-100 brightness-100"
+          }`}
         />
       )}
 
-      {/* Cinematic Vignette & Gradient Overlays for High-End Arcade Finish */}
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent z-10 pointer-events-none" />
-      <div className="absolute inset-0 bg-radial-[at_center_center] from-transparent via-transparent to-black/70 z-10 pointer-events-none" />
+      {/* Subtle bottom vignette for badge legibility */}
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent z-10 pointer-events-none" />
 
-      {/* Micro Arcade Grid Pattern for authentic sweeps terminal texture */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:14px_14px] z-10 pointer-events-none opacity-40" />
+      {/* Center 3D Brand Badge - shown ONLY when image completely fails to load */}
+      {hasFailedAll && (
+        <div className="relative z-20 flex flex-col items-center justify-center p-3 text-center pointer-events-none transition-opacity duration-300">
+          <div
+            className="absolute w-28 h-14 rounded-full blur-xl pointer-events-none -z-10 transition-transform duration-300"
+            style={{
+              backgroundColor: accentColor,
+              opacity: isHovered ? 0.9 : 0.5,
+              transform: isHovered ? "scale(1.4)" : "scale(1)",
+            }}
+          />
 
-      {/* Game Center 3D Brand Badge - Styled like FiestaSweeps arcade marques */}
-      <div className="relative z-20 flex flex-col items-center justify-center p-3 text-center pointer-events-none">
-        {/* Glowing Halo behind title */}
-        <div
-          className="absolute w-24 h-12 rounded-full blur-xl pointer-events-none -z-10 transition-transform duration-300"
-          style={{
-            backgroundColor: accentColor,
-            opacity: isHovered ? 0.9 : 0.5,
-            transform: isHovered ? "scale(1.4)" : "scale(1)",
-          }}
-        />
+          {/* Embossed Title */}
+          <span className="font-display font-black text-lg md:text-xl tracking-wide uppercase text-white drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
+            {title}
+          </span>
 
-        {/* Embossed 3D Title */}
-        <span className="font-display font-black text-lg md:text-xl tracking-wide uppercase text-white drop-shadow-[0_2px_8px_rgba(0,0,0,1)] text-stroke-sm">
-          {title}
-        </span>
-
-        <span className="mt-0.5 text-[10px] font-bold tracking-widest text-amber-300/90 uppercase drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] flex items-center gap-1">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
-          {game.category.includes("fish") ? "FISH ARCADE" : "MEGA SLOTS"}
-        </span>
-      </div>
+          <span className="mt-0.5 text-[10px] font-bold tracking-widest text-amber-300/90 uppercase drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
+            {game.category.includes("fish") ? "FISH ARCADE" : "MEGA SLOTS"}
+          </span>
+        </div>
+      )}
 
       {/* Bottom Status Overlay */}
       <div className="absolute bottom-2 left-2 right-2 z-20 flex items-center justify-between pointer-events-none">
-        <span className="text-[10px] font-semibold text-slate-300 bg-black/65 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/10 shadow-sm flex items-center gap-1">
+        <span className="text-[10px] font-semibold text-slate-300 bg-black/75 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/10 shadow-sm flex items-center gap-1">
           <span className="text-amber-400 text-[11px]">★</span>
           {game.playersCount}
         </span>
 
         {badge && (
-          <span className="text-[9px] font-black uppercase tracking-wider text-amber-200 bg-amber-500/20 backdrop-blur-md px-1.5 py-0.5 rounded border border-amber-400/30">
+          <span className="text-[9px] font-black uppercase tracking-wider text-amber-200 bg-amber-500/30 backdrop-blur-md px-1.5 py-0.5 rounded border border-amber-400/40">
             {badge}
           </span>
         )}

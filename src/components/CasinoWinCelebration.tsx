@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Sparkles, Trophy, Volume2, X, ExternalLink, Flame } from "lucide-react";
 import { CONFIG } from "../config";
 import { casinoAudio } from "../utils/casinoAudio";
+import { useGameImage } from "../services/imageStore";
 
 export const CasinoWinCelebration: React.FC = () => {
   const [active, setActive] = useState(false);
   const [gameTitle, setGameTitle] = useState("Fire Kirin");
   const [winAmount, setWinAmount] = useState(4850);
+  const megaWinImg = useGameImage("mega-win", CONFIG.MEGA_WIN_IMAGE_URL || "/games/mega-win.png");
+  const [imgError, setImgError] = useState(false);
 
   useEffect(() => {
     const handleCelebration = (e: Event) => {
@@ -64,10 +67,11 @@ export const CasinoWinCelebration: React.FC = () => {
         {/* Custom Mega Win Image or Trophy Icon with Glowing Rings */}
         <div className="relative mx-auto w-24 h-24 mb-4 flex items-center justify-center">
           <div className="absolute inset-0 rounded-full bg-amber-400/20 animate-ping opacity-75" />
-          {CONFIG.MEGA_WIN_IMAGE_URL ? (
+          {megaWinImg && !imgError ? (
             <img
-              src={CONFIG.MEGA_WIN_IMAGE_URL}
+              src={megaWinImg}
               alt="Mega Win"
+              onError={() => setImgError(true)}
               className="relative w-20 h-20 object-contain drop-shadow-[0_0_15px_rgba(245,158,11,0.6)]"
             />
           ) : (

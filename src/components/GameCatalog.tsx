@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Search, Play, Sparkles, Filter, ExternalLink, Flame } from "lucide-react";
+import { Search, Play, Sparkles, Filter, ExternalLink, Flame, Image as ImageIcon } from "lucide-react";
 import { GameCategory, Game } from "../types";
 import { GAMES_DATA } from "../data/games";
 import { handlePlayRedirect } from "../config";
@@ -14,7 +14,11 @@ const CATEGORIES: { id: GameCategory; label: string }[] = [
   { id: "jackpot", label: "Jackpots" },
 ];
 
-export const GameCatalog: React.FC = () => {
+interface GameCatalogProps {
+  onOpenImageUploader?: () => void;
+}
+
+export const GameCatalog: React.FC<GameCatalogProps> = ({ onOpenImageUploader }) => {
   const [selectedCategory, setSelectedCategory] = useState<GameCategory>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [hoveredGameId, setHoveredGameId] = useState<string | null>(null);
@@ -47,24 +51,36 @@ export const GameCatalog: React.FC = () => {
             </p>
           </div>
 
-          {/* Search bar */}
-          <div className="relative w-full md:w-72">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-            <input
-              type="text"
-              placeholder="Search platform or game..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-[#141026] border border-purple-900/30 rounded-full text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors shadow-inner"
-            />
-            {searchQuery && (
+          {/* Search bar and Image Artwork Manager trigger */}
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+            {onOpenImageUploader && (
               <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white"
+                onClick={onOpenImageUploader}
+                className="w-full sm:w-auto px-4 py-2.5 rounded-full bg-gradient-to-r from-amber-500/20 to-yellow-500/10 hover:from-amber-500/30 hover:to-yellow-500/20 border border-amber-500/40 text-amber-300 hover:text-amber-200 font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition active:scale-95 whitespace-nowrap cursor-pointer"
               >
-                Clear
+                <ImageIcon className="w-3.5 h-3.5 text-amber-400" />
+                <span>Artwork Manager (16)</span>
               </button>
             )}
+
+            <div className="relative w-full sm:w-72">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <input
+                type="text"
+                placeholder="Search platform or game..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2.5 bg-[#141026] border border-purple-900/30 rounded-full text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors shadow-inner"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
           </div>
         </div>
 

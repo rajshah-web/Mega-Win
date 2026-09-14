@@ -51,11 +51,12 @@ export const Navbar: React.FC<NavbarProps> = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-200 transform-gpu ${
         isScrolled
-          ? "bg-[#0c0a17]/90 backdrop-blur-md border-b border-purple-900/30 shadow-lg shadow-black/40"
+          ? "bg-[#0c0a17]/95 border-b border-purple-900/40 shadow-lg shadow-black/50"
           : "bg-transparent border-b border-white/5"
       }`}
+      style={{ willChange: "background-color" }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Brand Logo */}
@@ -64,8 +65,11 @@ export const Navbar: React.FC<NavbarProps> = () => {
           className="flex items-center gap-3 cursor-pointer group select-none"
         >
           <img
-            src={(!logoError && logoSrc) || EMBEDDED_GAME_LOGOS["mega-win"] || CONFIG.LOGO_IMAGE_URL || "/games/mega-win.png"}
+            src={(!logoError && logoSrc) || EMBEDDED_GAME_LOGOS["mega-win"] || CONFIG.LOGO_IMAGE_URL || "/games/mega-win.webp"}
             alt="MegaWins Logo"
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
             onError={() => {
               if (!logoError && EMBEDDED_GAME_LOGOS["mega-win"]) {
                 setLogoError(true);

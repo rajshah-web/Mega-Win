@@ -12,7 +12,7 @@ export const GAMES_DATA: Game[] = [
     accentColor: "#f43f5e",
     bgGradient: "from-rose-950 via-slate-900 to-amber-950",
     iconType: "dragon",
-    imageUrl: "/games/fire-kirin.png",
+    imageUrl: "/games/fire-kirin.webp",
     fallbackUrl: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600&auto=format&fit=crop&q=80",
   },
   {
@@ -26,7 +26,7 @@ export const GAMES_DATA: Game[] = [
     accentColor: "#06b6d4",
     bgGradient: "from-cyan-950 via-slate-900 to-blue-950",
     iconType: "star",
-    imageUrl: "/games/orion-stars.png",
+    imageUrl: "/games/orion-stars.webp",
     fallbackUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80",
   },
   {
@@ -40,7 +40,7 @@ export const GAMES_DATA: Game[] = [
     accentColor: "#fbbf24",
     bgGradient: "from-purple-950 via-indigo-950 to-amber-950",
     iconType: "galaxy",
-    imageUrl: "/games/milky-way.png",
+    imageUrl: "/games/milky-way.webp",
     fallbackUrl: "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=600&auto=format&fit=crop&q=80",
   },
   {
@@ -54,7 +54,7 @@ export const GAMES_DATA: Game[] = [
     accentColor: "#10b981",
     bgGradient: "from-emerald-950 via-slate-900 to-teal-950",
     iconType: "maya",
-    imageUrl: "/games/juwa-2.png",
+    imageUrl: "/games/juwa-2.webp",
     fallbackUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80",
   },
   {
@@ -68,7 +68,7 @@ export const GAMES_DATA: Game[] = [
     accentColor: "#8b5cf6",
     bgGradient: "from-violet-950 via-slate-900 to-purple-950",
     iconType: "panda",
-    imageUrl: "/games/panda-master.png",
+    imageUrl: "/games/panda-master.webp",
     fallbackUrl: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=600&auto=format&fit=crop&q=80",
   },
   {
@@ -82,7 +82,7 @@ export const GAMES_DATA: Game[] = [
     accentColor: "#d946ef",
     bgGradient: "from-fuchsia-950 via-slate-900 to-pink-950",
     iconType: "cyber",
-    imageUrl: "/games/ultra-panda.png",
+    imageUrl: "/games/ultra-panda.webp",
     fallbackUrl: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&auto=format&fit=crop&q=80",
   },
   {
@@ -96,7 +96,7 @@ export const GAMES_DATA: Game[] = [
     accentColor: "#f59e0b",
     bgGradient: "from-amber-950 via-slate-900 to-orange-950",
     iconType: "slots",
-    imageUrl: "/games/egame.png",
+    imageUrl: "/games/egame.webp",
     fallbackUrl: "https://images.unsplash.com/photo-1596838132731-3301c3fd4317?w=600&auto=format&fit=crop&q=80",
   },
   {
@@ -110,7 +110,7 @@ export const GAMES_DATA: Game[] = [
     accentColor: "#3b82f6",
     bgGradient: "from-blue-950 via-slate-900 to-indigo-950",
     iconType: "flame",
-    imageUrl: "/games/game-room.png",
+    imageUrl: "/games/game-room.webp",
     fallbackUrl: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&auto=format&fit=crop&q=80",
   },
   {
@@ -124,7 +124,7 @@ export const GAMES_DATA: Game[] = [
     accentColor: "#38bdf8",
     bgGradient: "from-sky-950 via-slate-900 to-blue-950",
     iconType: "lightning",
-    imageUrl: "/games/vblink.png",
+    imageUrl: "/games/vblink.webp",
     fallbackUrl: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=600&auto=format&fit=crop&q=80",
   },
   {
@@ -138,7 +138,7 @@ export const GAMES_DATA: Game[] = [
     accentColor: "#eab308",
     bgGradient: "from-yellow-950 via-slate-900 to-amber-950",
     iconType: "slots",
-    imageUrl: "/games/vegas-sweeps.png",
+    imageUrl: "/games/vegas-sweeps.webp",
     fallbackUrl: "https://images.unsplash.com/photo-1605870445919-838d190e8e1b?w=600&auto=format&fit=crop&q=80",
   },
   {
@@ -152,7 +152,7 @@ export const GAMES_DATA: Game[] = [
     accentColor: "#22d3ee",
     bgGradient: "from-cyan-950 via-slate-900 to-teal-950",
     iconType: "dragon",
-    imageUrl: "/games/blue-dragon.png",
+    imageUrl: "/games/blue-dragon.webp",
     fallbackUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=600&auto=format&fit=crop&q=80",
   },
   {
@@ -166,7 +166,7 @@ export const GAMES_DATA: Game[] = [
     accentColor: "#dc2626",
     bgGradient: "from-red-950 via-slate-900 to-rose-950",
     iconType: "cards",
-    imageUrl: "/games/mafia.png",
+    imageUrl: "/games/mafia.webp",
     fallbackUrl: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop&q=80",
   },
   {
@@ -180,7 +180,7 @@ export const GAMES_DATA: Game[] = [
     accentColor: "#34d399",
     bgGradient: "from-emerald-950 via-slate-900 to-cyan-950",
     iconType: "flame",
-    imageUrl: "/games/river-sweeps.png",
+    imageUrl: "/games/river-sweeps.webp",
     fallbackUrl: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&auto=format&fit=crop&q=80",
   },
   {
@@ -194,7 +194,7 @@ export const GAMES_DATA: Game[] = [
     accentColor: "#f59e0b",
     bgGradient: "from-amber-950 via-slate-900 to-stone-900",
     iconType: "vault",
-    imageUrl: "/games/game-vault.png",
+    imageUrl: "/games/game-vault.webp",
     fallbackUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80",
   },
   {
@@ -208,7 +208,7 @@ export const GAMES_DATA: Game[] = [
     accentColor: "#22c55e",
     bgGradient: "from-emerald-950 via-slate-900 to-green-950",
     iconType: "cash",
-    imageUrl: "/games/cash-machine.png",
+    imageUrl: "/games/cash-machine.webp",
     fallbackUrl: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=600&auto=format&fit=crop&q=80",
   },
   {
@@ -222,7 +222,7 @@ export const GAMES_DATA: Game[] = [
     accentColor: "#f59e0b",
     bgGradient: "from-amber-950 via-slate-900 to-yellow-950",
     iconType: "star",
-    imageUrl: "/games/mega-win.png",
+    imageUrl: "/games/mega-win.webp",
     fallbackUrl: "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&auto=format&fit=crop&q=80",
   },
 ];

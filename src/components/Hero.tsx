@@ -149,11 +149,11 @@ export const Hero: React.FC = () => {
                   <div
                     key={game.id}
                     onClick={() => handlePlayRedirect(game.title)}
-                    className="group relative flex flex-col rounded-xl overflow-hidden bg-[#18142b] border border-purple-900/30 hover:border-purple-500/70 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-950/60 cursor-pointer"
+                    className="group relative flex flex-col rounded-xl overflow-hidden bg-[#18142b] border border-purple-900/30 hover:border-purple-500/70 transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-950/60 cursor-pointer game-card-contain"
                   >
                     {/* Badge */}
                     {game.badge && (
-                      <div className="absolute top-2 left-2 z-20">
+                      <div className="absolute top-2 left-2 z-20 pointer-events-none">
                         <span
                           className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-gradient-to-r ${game.badgeColor} text-white shadow-md shadow-black/60`}
                         >
@@ -167,8 +167,8 @@ export const Hero: React.FC = () => {
                       <GameArtwork game={game} priority={true} />
 
                       {/* Play Button Overlay */}
-                      <div className="absolute inset-0 bg-purple-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
-                        <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-purple-600 to-fuchsia-500 shadow-lg shadow-purple-600/50 flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform duration-200">
+                      <div className="absolute inset-0 bg-purple-950/50 opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex items-center justify-center">
+                        <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-purple-600 to-fuchsia-500 shadow-lg shadow-purple-600/50 flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform duration-150">
                           <Play className="w-5 h-5 text-white fill-white ml-0.5" />
                         </div>
                       </div>

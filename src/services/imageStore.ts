@@ -238,28 +238,25 @@ export async function getAllStoredImages(): Promise<Record<string, string>> {
   return result;
 }
 
+let idbInitialized = false;
+
 // React Hook for automatic reactive game image loading
 export function useGameImage(key: string, defaultSrc?: string): string | undefined {
   const embedded = EMBEDDED_GAME_LOGOS[key];
-  const initial = memoryCache.get(key) || embedded || defaultSrc;
-  const [src, setSrc] = useState<string | undefined>(initial);
+  const cached = memoryCache.get(key);
+  const [src, setSrc] = useState<string | undefined>(cached || embedded || defaultSrc);
 
   useEffect(() => {
     let isMounted = true;
 
-    // 1. If embedded exists, ensure it's in memory cache
-    if (embedded && !memoryCache.has(key)) {
-      memoryCache.set(key, embedded);
+    if (!idbInitialized && typeof window !== "undefined" && window.indexedDB) {
+      idbInitialized = true;
+      getAllStoredImages().then((all) => {
+        if (isMounted && all[key]) {
+          setSrc(all[key]);
+        }
+      });
     }
-
-    // 2. Check IndexedDB for any custom user uploaded overrides
-    getStoredGameImage(key).then((stored) => {
-      if (isMounted && stored) {
-        setSrc(stored);
-      } else if (isMounted && embedded) {
-        setSrc(embedded);
-      }
-    });
 
     const handleUpdate = (e: Event) => {
       const customEvent = e as CustomEvent<{ key: string; dataUrl: string }>;
@@ -273,7 +270,7 @@ export function useGameImage(key: string, defaultSrc?: string): string | undefin
       isMounted = false;
       window.removeEventListener("megawins-game-image-updated", handleUpdate);
     };
-  }, [key, defaultSrc, embedded]);
+  }, [key]);
 
-  return src || embedded || defaultSrc;
+  return src || memoryCache.get(key) || embedded || defaultSrc;
 }

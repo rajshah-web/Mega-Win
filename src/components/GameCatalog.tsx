@@ -106,7 +106,7 @@ export const GameCatalog: React.FC = () => {
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6">
-            {filteredGames.map((game) => {
+            {filteredGames.map((game, idx) => {
               const isHovered = hoveredGameId === game.id;
               return (
                 <div
@@ -114,11 +114,11 @@ export const GameCatalog: React.FC = () => {
                   onMouseEnter={() => setHoveredGameId(game.id)}
                   onMouseLeave={() => setHoveredGameId(null)}
                   onClick={() => handlePlayRedirect(game.title)}
-                  className="group relative flex flex-col rounded-2xl overflow-hidden bg-[#141026] border border-purple-900/30 hover:border-purple-500 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-purple-950/70 cursor-pointer"
+                  className="group relative flex flex-col rounded-2xl overflow-hidden bg-[#141026] border border-purple-900/30 hover:border-purple-500 transition-transform duration-200 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-purple-950/60 cursor-pointer game-card-contain"
                 >
                   {/* Badge */}
                   {game.badge && (
-                    <div className="absolute top-2.5 left-2.5 z-20">
+                    <div className="absolute top-2.5 left-2.5 z-20 pointer-events-none">
                       <span
                         className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-gradient-to-r ${game.badgeColor} text-white shadow-md shadow-black/80 flex items-center gap-1`}
                       >
@@ -131,11 +131,11 @@ export const GameCatalog: React.FC = () => {
 
                   {/* Artwork Container */}
                   <div className="relative aspect-[16/11] w-full overflow-hidden">
-                    <GameArtwork game={game} isHovered={isHovered} />
+                    <GameArtwork game={game} isHovered={isHovered} priority={idx < 4} />
 
                     {/* Play Button Overlay */}
-                    <div className="absolute inset-0 bg-purple-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center backdrop-blur-[2px]">
-                      <div className="w-13 h-13 rounded-full bg-gradient-to-tr from-purple-600 via-indigo-500 to-fuchsia-500 shadow-xl shadow-purple-600/60 flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform duration-200">
+                    <div className="absolute inset-0 bg-purple-950/50 opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex items-center justify-center">
+                      <div className="w-13 h-13 rounded-full bg-gradient-to-tr from-purple-600 via-indigo-500 to-fuchsia-500 shadow-xl shadow-purple-600/60 flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform duration-150">
                         <Play className="w-6 h-6 text-white fill-white ml-0.5" />
                       </div>
                     </div>

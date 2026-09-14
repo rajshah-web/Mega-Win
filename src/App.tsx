@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
 import { LiveWinnersTicker } from "./components/LiveWinnersTicker";
@@ -10,8 +10,28 @@ import { TelegramFloat } from "./components/TelegramFloat";
 import { CasinoWinCelebration } from "./components/CasinoWinCelebration";
 import { FloatingCoinsBackground } from "./components/FloatingCoinsBackground";
 import { CoinShower } from "./components/CoinShower";
+import { GAMES_DATA } from "./data/games";
 
 export default function App() {
+  // Pre-warm all game images into the browser cache during idle time
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const prefetchImages = () => {
+      GAMES_DATA.forEach((game) => {
+        const img = new Image();
+        img.src = game.imageUrl;
+      });
+    };
+
+    if ("requestIdleCallback" in window) {
+      const id = (window as Window & { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number; cancelIdleCallback: (id: number) => void }).requestIdleCallback(prefetchImages, { timeout: 800 });
+      return () => (window as Window & { cancelIdleCallback: (id: number) => void }).cancelIdleCallback?.(id);
+    } else {
+      const timer = setTimeout(prefetchImages, 150);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#0b0a12] text-slate-100 flex flex-col font-sans selection:bg-purple-600 selection:text-white relative overflow-x-hidden">
       {/* Ambient Floating 3D Gold Coins Background */}

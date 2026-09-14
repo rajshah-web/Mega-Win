@@ -3,6 +3,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
   }
 
   body {
@@ -16,6 +17,13 @@
   h1, h2, h3, h4, .font-display {
     font-family: 'Outfit', sans-serif;
   }
+}
+
+/* GPU acceleration for cards and scroll performance */
+.game-card-contain {
+  contain: content;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 /* 3D Coin Rotation - GPU accelerated */

@@ -69,8 +69,10 @@ export const CasinoWinCelebration: React.FC = () => {
         <div className="relative mx-auto w-24 h-24 mb-4 flex items-center justify-center">
           <div className="absolute inset-0 rounded-full bg-amber-400/20 animate-ping opacity-75" />
           <img
-            src={(!imgError && megaWinImg) || EMBEDDED_GAME_LOGOS["mega-win"] || CONFIG.MEGA_WIN_IMAGE_URL || "/games/mega-win.png"}
+            src={(!imgError && megaWinImg) || EMBEDDED_GAME_LOGOS["mega-win"] || CONFIG.MEGA_WIN_IMAGE_URL || "/games/mega-win.webp"}
             alt="Mega Win"
+            loading="lazy"
+            decoding="async"
             onError={() => {
               if (!imgError && EMBEDDED_GAME_LOGOS["mega-win"]) {
                 setImgError(true);

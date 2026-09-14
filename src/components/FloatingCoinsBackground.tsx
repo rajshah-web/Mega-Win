@@ -7,28 +7,27 @@ interface CoinParticle {
   size: number;
   duration: number;
   delay: number;
-  rotationSpeed: number;
   opacity: number;
 }
 
-export const FloatingCoinsBackground: React.FC = () => {
-  // Balanced set of 8 ambient coins with GPU accelerated transform animations
+export const FloatingCoinsBackground: React.FC = React.memo(() => {
+  // Ultra-lightweight ambient golden ambient accents (isolated GPU composited plane)
   const coins: CoinParticle[] = useMemo(() => {
-    return Array.from({ length: 8 }, (_, i) => ({
-      id: i,
-      left: Math.round((i * 12 + 6) % 94),
-      top: Math.round((i * 18 + 8) % 90),
-      size: Math.round(20 + (i % 3) * 10),
-      duration: Math.round(9 + (i % 3) * 3),
-      delay: Number(((i * 0.7) % 3).toFixed(1)),
-      rotationSpeed: Number((3 + (i % 3) * 1.5).toFixed(1)),
-      opacity: Number((0.15 + (i % 2) * 0.08).toFixed(2)),
-    }));
+    return [
+      { id: 1, left: 6, top: 12, size: 26, duration: 11, delay: 0, opacity: 0.18 },
+      { id: 2, left: 88, top: 22, size: 32, duration: 13, delay: 1.5, opacity: 0.2 },
+      { id: 3, left: 14, top: 48, size: 24, duration: 10, delay: 0.8, opacity: 0.16 },
+      { id: 4, left: 92, top: 65, size: 30, duration: 12, delay: 2.2, opacity: 0.18 },
+      { id: 5, left: 8, top: 82, size: 28, duration: 14, delay: 1.2, opacity: 0.16 },
+    ];
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 select-none transform-gpu">
-      {/* Shared defs to eliminate repeated SVG overhead */}
+    <div
+      className="fixed inset-0 pointer-events-none overflow-hidden z-0 select-none contain-strict"
+      style={{ willChange: "transform" }}
+      aria-hidden="true"
+    >
       <svg className="absolute w-0 h-0" aria-hidden="true">
         <defs>
           <linearGradient id="global-coin-outer" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -48,24 +47,23 @@ export const FloatingCoinsBackground: React.FC = () => {
       {coins.map((coin) => (
         <div
           key={coin.id}
-          className="absolute transform-gpu"
+          className="absolute"
           style={{
             left: `${coin.left}%`,
             top: `${coin.top}%`,
             opacity: coin.opacity,
             animation: `floatAmbient ${coin.duration}s infinite ease-in-out ${coin.delay}s`,
+            willChange: "transform",
+            transform: "translate3d(0, 0, 0)",
           }}
         >
-          {/* 3D Spinning Golden Coin SVG */}
           <div
-            className="animate-coin-spin inline-block drop-shadow-[0_0_6px_rgba(245,158,11,0.3)] transform-gpu"
             style={{
               width: `${coin.size}px`,
               height: `${coin.size}px`,
-              animationDuration: `${coin.rotationSpeed}s`,
             }}
           >
-            <svg viewBox="0 0 100 100" className="w-full h-full">
+            <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_0_8px_rgba(245,158,11,0.3)]">
               <circle cx="50" cy="50" r="46" fill="url(#global-coin-outer)" stroke="#fbbf24" strokeWidth="2" />
               <circle cx="50" cy="50" r="37" fill="url(#global-coin-inner)" stroke="#78350f" strokeWidth="1.5" />
               <path
@@ -86,10 +84,10 @@ export const FloatingCoinsBackground: React.FC = () => {
             transform: translate3d(0, 0, 0);
           }
           50% {
-            transform: translate3d(12px, -24px, 0);
+            transform: translate3d(8px, -18px, 0);
           }
         }
       `}</style>
     </div>
   );
-};
+});

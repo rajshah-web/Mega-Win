@@ -8,9 +8,9 @@ export const CONFIG = {
   SITE_NAME: "MegaWins",
   TAGLINE: "No.1 Free-to-Play Social Casino",
   // Logo Image (set to your image URL or local path like "/logo.png", or leave empty for default badge)
-  LOGO_IMAGE_URL: "/games/mega-win.png",
-  // Mega Win celebration popup graphic (set to image URL like "/games/mega-win.png")
-  MEGA_WIN_IMAGE_URL: "/games/mega-win.png",
+  LOGO_IMAGE_URL: "/games/mega-win.webp",
+  // Mega Win celebration popup graphic (set to image URL like "/games/mega-win.webp")
+  MEGA_WIN_IMAGE_URL: "/games/mega-win.webp",
   // Redirect target requested by user; fallback to default if env var is unset
   TELEGRAM_URL:
     (import.meta.env.VITE_TELEGRAM_URL as string) ||

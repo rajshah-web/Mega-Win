@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, .font-display {
@@ -10,33 +18,32 @@
   }
 }
 
-/* 3D Coin Rotation */
+/* 3D Coin Rotation - GPU accelerated */
 @keyframes coinRotate {
   0% {
-    transform: rotateY(0deg) translateY(0);
+    transform: rotateY(0deg) translate3d(0, 0, 0);
   }
   50% {
-    transform: rotateY(180deg) translateY(-8px);
+    transform: rotateY(180deg) translate3d(0, -6px, 0);
   }
   100% {
-    transform: rotateY(360deg) translateY(0);
+    transform: rotateY(360deg) translate3d(0, 0, 0);
   }
 }
 
 .animate-coin-spin {
-  animation: coinRotate 3s infinite linear;
+  animation: coinRotate 3.2s infinite linear;
   transform-style: preserve-3d;
+  will-change: transform;
 }
 
 /* Marquee chaser lights */
 @keyframes chaserLights {
   0%, 100% {
-    opacity: 0.3;
-    filter: drop-shadow(0 0 2px #f59e0b);
+    opacity: 0.35;
   }
   50% {
     opacity: 1;
-    filter: drop-shadow(0 0 8px #fbbf24);
   }
 }
 
@@ -51,10 +58,10 @@
 /* Shimmer shine across buttons and cards */
 @keyframes shimmerSweep {
   0% {
-    transform: translateX(-150%) skewX(-20deg);
+    transform: translate3d(-150%, 0, 0) skewX(-20deg);
   }
   100% {
-    transform: translateX(200%) skewX(-20deg);
+    transform: translate3d(200%, 0, 0) skewX(-20deg);
   }
 }
 
@@ -73,59 +80,61 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.25),
+    rgba(255, 255, 255, 0.2),
     transparent
   );
   animation: shimmerSweep 3.5s infinite;
   pointer-events: none;
+  will-change: transform;
 }
 
-/* Slot machine reel spin blur */
+/* Slot machine reel spin */
 @keyframes reelBlur {
   0% {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translateY(-80px);
-    filter: blur(2px);
+    transform: translate3d(0, -40px, 0);
   }
   100% {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
 .animate-reel-spin {
   animation: reelBlur 0.35s infinite ease-in-out;
+  will-change: transform;
 }
 
 /* Jackpot pulsating glow */
 @keyframes jackpotPulse {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(245, 158, 11, 0.3), inset 0 0 15px rgba(245, 158, 11, 0.15);
+    box-shadow: 0 0 16px rgba(245, 158, 11, 0.25), inset 0 0 10px rgba(245, 158, 11, 0.12);
   }
   50% {
-    box-shadow: 0 0 45px rgba(245, 158, 11, 0.7), inset 0 0 25px rgba(245, 158, 11, 0.4);
+    box-shadow: 0 0 35px rgba(245, 158, 11, 0.55), inset 0 0 20px rgba(245, 158, 11, 0.3);
   }
 }
 
 .animate-jackpot-glow {
-  animation: jackpotPulse 2s infinite ease-in-out;
+  animation: jackpotPulse 2.4s infinite ease-in-out;
 }
 
-/* Ticker marquee */
+/* Ticker marquee with GPU acceleration */
 @keyframes ticker {
   0% {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
 .animate-ticker {
   display: flex;
   width: max-content;
-  animation: ticker 35s linear infinite;
+  animation: ticker 40s linear infinite;
+  will-change: transform;
 }
 
 .animate-ticker:hover {

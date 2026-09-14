@@ -164,7 +164,7 @@ export const Hero: React.FC = () => {
 
                     {/* Artwork Container with Aspect Ratio */}
                     <div className="relative aspect-[4/3] w-full overflow-hidden">
-                      <GameArtwork game={game} />
+                      <GameArtwork game={game} priority={true} />
 
                       {/* Play Button Overlay */}
                       <div className="absolute inset-0 bg-purple-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">

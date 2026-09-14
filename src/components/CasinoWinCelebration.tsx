@@ -3,6 +3,7 @@ import { Sparkles, Trophy, Volume2, X, ExternalLink, Flame } from "lucide-react"
 import { CONFIG } from "../config";
 import { casinoAudio } from "../utils/casinoAudio";
 import { useGameImage } from "../services/imageStore";
+import { EMBEDDED_GAME_LOGOS } from "../data/embeddedLogos";
 
 export const CasinoWinCelebration: React.FC = () => {
   const [active, setActive] = useState(false);
@@ -67,18 +68,16 @@ export const CasinoWinCelebration: React.FC = () => {
         {/* Custom Mega Win Image or Trophy Icon with Glowing Rings */}
         <div className="relative mx-auto w-24 h-24 mb-4 flex items-center justify-center">
           <div className="absolute inset-0 rounded-full bg-amber-400/20 animate-ping opacity-75" />
-          {megaWinImg && !imgError ? (
-            <img
-              src={megaWinImg}
-              alt="Mega Win"
-              onError={() => setImgError(true)}
-              className="relative w-20 h-20 object-contain drop-shadow-[0_0_15px_rgba(245,158,11,0.6)]"
-            />
-          ) : (
-            <div className="relative w-16 h-16 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center shadow-lg shadow-amber-500/50">
-              <Trophy className="w-9 h-9 text-slate-950 fill-slate-950" />
-            </div>
-          )}
+          <img
+            src={(!imgError && megaWinImg) || EMBEDDED_GAME_LOGOS["mega-win"] || CONFIG.MEGA_WIN_IMAGE_URL || "/games/mega-win.png"}
+            alt="Mega Win"
+            onError={() => {
+              if (!imgError && EMBEDDED_GAME_LOGOS["mega-win"]) {
+                setImgError(true);
+              }
+            }}
+            className="relative w-20 h-20 object-contain drop-shadow-[0_0_15px_rgba(245,158,11,0.6)]"
+          />
         </div>
 
         {/* Win Banner Title */}

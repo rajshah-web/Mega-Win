@@ -3,6 +3,7 @@ import { Sparkles, Menu, X, Send, ShieldCheck, Flame, Volume2, VolumeX } from "l
 import { CONFIG, handlePlayRedirect } from "../config";
 import { casinoAudio } from "../utils/casinoAudio";
 import { useGameImage } from "../services/imageStore";
+import { EMBEDDED_GAME_LOGOS } from "../data/embeddedLogos";
 
 interface NavbarProps {
   onOpenSupport?: () => void;
@@ -17,10 +18,17 @@ export const Navbar: React.FC<NavbarProps> = () => {
 
   useEffect(() => {
     setIsMuted(casinoAudio.getMuted());
+    let ticking = false;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -55,20 +63,16 @@ export const Navbar: React.FC<NavbarProps> = () => {
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="flex items-center gap-3 cursor-pointer group select-none"
         >
-          {logoSrc && !logoError ? (
-            <img
-              src={logoSrc}
-              alt="MegaWins Logo"
-              onError={() => setLogoError(true)}
-              className="w-10 h-10 object-contain rounded-xl shadow-lg shadow-purple-600/30 group-hover:scale-105 transition-transform"
-            />
-          ) : (
-            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-500 to-amber-400 p-[1.5px] shadow-lg shadow-purple-600/30 group-hover:scale-105 transition-transform">
-              <div className="w-full h-full bg-[#0e0c1b] rounded-[10px] flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-amber-400 animate-pulse" />
-              </div>
-            </div>
-          )}
+          <img
+            src={(!logoError && logoSrc) || EMBEDDED_GAME_LOGOS["mega-win"] || CONFIG.LOGO_IMAGE_URL || "/games/mega-win.png"}
+            alt="MegaWins Logo"
+            onError={() => {
+              if (!logoError && EMBEDDED_GAME_LOGOS["mega-win"]) {
+                setLogoError(true);
+              }
+            }}
+            className="w-10 h-10 object-contain rounded-xl shadow-lg shadow-purple-600/30 group-hover:scale-105 transition-transform"
+          />
           <div className="flex flex-col">
             <span className="font-display font-black text-2xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-purple-200 bg-clip-text text-transparent">
               Mega<span className="text-purple-400">Wins</span>

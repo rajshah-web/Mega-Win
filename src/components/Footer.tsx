@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Sparkles, Shield, Send, HeartHandshake, AlertCircle } from "lucide-react";
 import { CONFIG, handlePlayRedirect } from "../config";
+import { EMBEDDED_GAME_LOGOS } from "../data/embeddedLogos";
 
 interface ModalContent {
   title: string;
@@ -21,17 +22,11 @@ export const Footer: React.FC = () => {
           {/* Top Footer: Brand, Statement, and Badges */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-white/5">
             <div className="flex items-center gap-3">
-              {CONFIG.LOGO_IMAGE_URL ? (
-                <img
-                  src={CONFIG.LOGO_IMAGE_URL}
-                  alt="MegaWins Logo"
-                  className="w-8 h-8 object-contain rounded-lg shadow-sm"
-                />
-              ) : (
-                <div className="w-8 h-8 rounded-lg bg-purple-600/30 border border-purple-500/40 flex items-center justify-center">
-                  <Sparkles className="w-4 h-4 text-amber-400" />
-                </div>
-              )}
+              <img
+                src={EMBEDDED_GAME_LOGOS["mega-win"] || CONFIG.LOGO_IMAGE_URL || "/games/mega-win.png"}
+                alt="MegaWins Logo"
+                className="w-8 h-8 object-contain rounded-lg shadow-sm"
+              />
               <span className="font-display font-black text-xl text-white tracking-tight">
                 Mega<span className="text-purple-400">Wins</span>
               </span>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { EMBEDDED_GAME_LOGOS } from "../data/embeddedLogos";
 
 const DB_NAME = "megawins_images_db";
 const DB_VERSION = 1;
@@ -239,15 +240,24 @@ export async function getAllStoredImages(): Promise<Record<string, string>> {
 
 // React Hook for automatic reactive game image loading
 export function useGameImage(key: string, defaultSrc?: string): string | undefined {
-  const [src, setSrc] = useState<string | undefined>(() => memoryCache.get(key) || defaultSrc);
+  const embedded = EMBEDDED_GAME_LOGOS[key];
+  const initial = memoryCache.get(key) || embedded || defaultSrc;
+  const [src, setSrc] = useState<string | undefined>(initial);
 
   useEffect(() => {
     let isMounted = true;
 
-    // Check IndexedDB
+    // 1. If embedded exists, ensure it's in memory cache
+    if (embedded && !memoryCache.has(key)) {
+      memoryCache.set(key, embedded);
+    }
+
+    // 2. Check IndexedDB for any custom user uploaded overrides
     getStoredGameImage(key).then((stored) => {
       if (isMounted && stored) {
         setSrc(stored);
+      } else if (isMounted && embedded) {
+        setSrc(embedded);
       }
     });
 
@@ -263,7 +273,7 @@ export function useGameImage(key: string, defaultSrc?: string): string | undefin
       isMounted = false;
       window.removeEventListener("megawins-game-image-updated", handleUpdate);
     };
-  }, [key, defaultSrc]);
+  }, [key, defaultSrc, embedded]);
 
-  return src;
+  return src || embedded || defaultSrc;
 }
